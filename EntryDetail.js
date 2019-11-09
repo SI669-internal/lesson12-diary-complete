@@ -20,7 +20,7 @@ export class EntryDetailScreen extends React.Component {
       initText = this.entryToUpdate.text;
       initLabels = this.entryToUpdate.labels;
     } else {
-      for (lbl of this.mainScreen.labels) {
+      for (lbl of this.mainScreen.state.labels) {
         initLabels.push({
           key: lbl.key,
           name: lbl.name,

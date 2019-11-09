@@ -19,14 +19,9 @@ export class MainScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    let theList = [];
-    this.labels = [
-      {key: 'h', name: 'Home'},
-      {key: 'w', name: 'Work'},
-      {key: 's', name: 'School'}
-    ];
     this.state = {
-      entries: theList,
+      entries: [],
+      labels: []
     }
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
