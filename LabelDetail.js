@@ -42,28 +42,11 @@ export class LabelDetailScreen extends React.Component {
         <View style={styles.detailsBodyContainer}>
           <View style={styles.detailsInputContainer}>
             <Input
-              placeholder="What's new?"
+              placeholder="Add Label"
               inputContainerStyle={styles.largeInput}
               containerStyle={{justifyContent: 'flex-start'}}
               value={this.state.inputText}
               onChangeText={(value)=>{this.setState({inputText: value})}}
-            />
-          </View>
-          <View style={styles.detailsLabelsContainer}>
-            <FlatList
-              data={this.state.labels}
-              renderItem={({item})=>{
-                return(
-                  <View style={styles.labelSelectContainer}>
-                    <CheckBox
-                      containerStyle={styles.labelSelectCheckBoxContainer}
-                      checked={item.value}
-                      onPress={()=>{this.handleLabelToggle(item)}}
-                    />
-                    <Text style={styles.labelSelectText}>{item.name}</Text>
-                  </View>
-                );
-              }}
             />
           </View>
         </View>
