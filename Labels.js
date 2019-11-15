@@ -24,6 +24,7 @@ export class LabelsScreen extends React.Component {
       }
       this.mainScreen.updateLabels(newLabels);
       this.setState({labels: newLabels});
+      this.reconcileOnDeleteLabel(labelToDelete);
     });
   }
 
@@ -42,7 +43,8 @@ export class LabelsScreen extends React.Component {
         newLabels.push(labelToAdd);
         this.mainScreen.updateLabels(newLabels);
         return{labels: newLabels};
-      })
+      });
+      this.reconcileOnAddLabel(labelToAdd);
     });
   }
   
@@ -64,6 +66,56 @@ export class LabelsScreen extends React.Component {
   }
 
 
+  reconcileOnAddLabel(newLabel) {
+    let newEntries = [];
+    newLabel.value = false;
+    let batch = this.mainScreen.db.batch();
+    for (e of this.mainScreen.state.entries) {
+      console.log('reconciling', e);
+      e.labels.push(newLabel);
+      eData = {
+        text: e.text,
+        timestamp: e.timestamp,
+        labels: e.labels
+      }
+      eRef = this.mainScreen.entriesRef.doc(e.key);
+      batch.set(eRef, eData);
+      newEntries.push(e);
+    }
+    batch.commit().then(() => {
+      this.mainScreen.setState({entries: newEntries});
+    });
+  }
+
+
+  reconcileOnDeleteLabel(deletedLabel) {
+    let newEntries = [];
+    let batch = this.mainScreen.db.batch();
+    for (e of this.mainScreen.state.entries) {
+      let newLabels = [];
+      for (lbl of e.labels) {
+        console.log("comparing", lbl.key, deletedLabel.key, lbl.key !== deletedLabel.key);
+        if (lbl.key !== deletedLabel.key) {
+          console.log('pushing', lbl);
+          newLabels.push(lbl);
+        }
+      }
+      console.log('new labels', newLabels);
+      e.labels = newLabels;
+      eData = {
+        text: e.text,
+        timestamp: e.timestamp,
+        labels: e.labels
+      }
+      eRef = this.mainScreen.entriesRef.doc(e.key);
+      batch.set(eRef, eData);
+      newEntries.push(e);
+    }
+    console.log(newEntries);
+    batch.commit().then(() => {
+      this.mainScreen.setState({entries: newEntries});
+    });
+  }
 
   render() {
     return (

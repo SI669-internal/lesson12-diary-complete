@@ -24,8 +24,8 @@ export class MainScreen extends React.Component {
       labels: []
     }
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    this.entriesRef = db.collection('entries'); 
+    this.db = firebase.firestore();
+    this.entriesRef = this.db.collection('entries'); 
     this.entriesRef.get().then(queryRef=>{
       let newEntries = [];
       queryRef.forEach(docRef=>{
@@ -41,7 +41,7 @@ export class MainScreen extends React.Component {
       this.setState({entries: newEntries});
     });
 
-    this.labelsRef = db.collection('labels');
+    this.labelsRef = this.db.collection('labels');
     this.labelsRef.get().then((querySnap)=>{
       let newLabels = [];
       querySnap.forEach(docSnap=>{
@@ -98,6 +98,15 @@ export class MainScreen extends React.Component {
 
   updateLabels(newLabels) {
     this.setState({labels: newLabels});
+  }
+  
+  getLabelName(labelKey) {
+    for (lbl of this.state.labels) {
+      if (lbl.key === labelKey) {
+        return lbl.name;
+      }
+    }
+    return undefined;
   }
   
   handleDelete(entryToDelete) {

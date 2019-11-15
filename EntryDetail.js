@@ -91,7 +91,7 @@ export class EntryDetailScreen extends React.Component {
                       checked={item.value}
                       onPress={()=>{this.handleLabelToggle(item)}}
                     />
-                    <Text style={styles.labelSelectText}>{item.name}</Text>
+                    <Text style={styles.labelSelectText}>{this.mainScreen.getLabelName(item.key)}</Text>
                   </View>
                 );
               }}
