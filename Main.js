@@ -12,7 +12,7 @@ const firebaseConfig = {
   projectId: "lesson10-diary",
   storageBucket: "lesson10-diary.appspot.com",
   messagingSenderId: "719297828921",
-  appId: "1:719297828921:web:3ef7d4908643806e7255e8"
+  appId: "1:719297828921:web:42fad3b9dd1de0f67255e8"
 };
 
 export class MainScreen extends React.Component {
